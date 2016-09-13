@@ -1,0 +1,14 @@
+
+
+<h2 class="title">Polls</h2>
+
+<div id="polls" class="container-fluid call">
+{{#if polls}}
+  {{#each polls}}
+
+  <a href="polls/{{id}}" ><div class="btn btn-default poll-div">{{question}}</div></br></a>
+
+  {{/each}}
+{{/if}}
+</div>
+<a href="newPoll"><div class="btn btn-default newpoll-btn"><i class="fa fa-plus"></i> New poll</div></a>

@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<head>
+  <meta charset="utf-8">
+  <title>Polly</title>
+
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/images/manifest.json">
+<link rel="mask-icon" href="/images//safari-pinned-tab.svg" color="#5bbad5">
+<meta name="apple-mobile-web-app-title" content="Polly">
+<meta name="application-name" content="Polly">
+<meta name="theme-color" content="#ffffff">
+  <link rel='stylesheet' type='text/css' href='/stylesheets/polly.css'>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//d3js.org/d3.v4.min.js"></script>
+</head>
+<html>
+<body>
+
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class='container-fluid'>
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><img src="/images/bird_16px.png"></img>&nbsp;Polly</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="MyNavBar">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+
+            {{#if name}}
+            <a href="/profile">Hello, {{name}} </a>
+            {{else}}
+            <a href="#signinmodal" data-toggle="modal">Sign in</a>
+            {{/if}}
+
+        </li>
+        <li>
+          <a href="/polls" >Polls</a>
+        </li>
+        <li>
+          {{#if name}}
+            <a href="/users/logout">Logout</a>
+          {{else}}
+          <a href="#contact">Contact</a>
+          {{/if}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Modal .-->
+<div id="signinmodal" class="modal fade" role=dialog>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+      </div>
+      <div class="modal-body">
+        <div>
+          <div role="tabpanel" class="login-tab">
+            <!-- Tabs -->
+            <ul class="nav nav-tabs">
+              <li class="active"><a id="logintaba" href="#logintab" data-toggle="tab">Log in</a></li>
+              <li><a id="registertaba" href="#regtab" data-toggle="tab">Register</a></li>
+              <li><a id="forgetpasstaba" href="#forgottab" data-toggle="tab">Forgot password</a></li>
+            </ul>
+            <!-- tab content-->
+            <div class="tab-content">
+              <div class="tab-pane active" id="logintab">&nbsp;&nbsp;
+                <!--Log in-->
+                <form action="/users/login" method="post" id=login>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                      <input type="text" class="form-control" name="username" placeholder="Username"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                      <input type="password" class="form-control" name="password" placeholder="password"/>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-default" data-loading-text="Signing in...">Login</button>
+                  <p>or</p>
+
+
+                    <a href="/users/facebook" class="btn btn-primary">Log in with Facebook</a>
+
+
+                  <div class="login-modal-footer">
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-8 col-md-8">
+                        <i class="fa fa-lock"></i>
+                        <a href="#" class="forgetpass-tab"> Forgot password? </a>
+                      </div>
+                      <div class="col-xs-4 col-sm-4 col-md-4">
+                        <i class="fa fa-lock"></i>
+                        <a href="#" class="signup-tab"> Sign up </a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+              <div class="tab-pane" id="regtab">&nbsp;&nbsp;
+                <!--Register-->
+                <form action="/users/register" method="post" id="signup">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                      <input type="text" class="form-control" name="username" placeholder="username"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-at"></i></div>
+                      <input type="text" class="form-control" name="email" placeholder="Email"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                      <input type="password" class="form-control" name="password" placeholder="password"/>
+                    </div>
+                  </div>
+                  <button class="btn btn-default" data-loading-text="Registering...">Register</button>
+                  <div class="login-modal-footer">
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-8 col-md-8">
+                        <i class="fa fa-lock"></i>
+                        <a href="#" class="forgetpass-tab">Forgot password?</a>
+                      </div>
+                      <div class="col-xs-4 col-sm-4 col-md-4">
+                        <i class="fa fa-check"></i>
+                        <a href="#" class="signin-tab">Sign in</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane" id="forgottab">&nbsp;&nbsp;
+                <!--Forgot password-->
+                <form>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-at"></i></div>
+                      <input type="text" class="form-control" placeholder="Email"/>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-default" data-loading-text="Please wait...">Send</button>
+                  <div class="login-modal-footer">
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-8 col-md-8">
+                        <i class="fa fa-lock"></i>
+                        <a href="#" class="signin-tab">Sign in</a>
+                      </div>
+                      <div class="col-xs-4 col-sm-4 col-md-4">
+                        <i class="fa fa-check"></i>
+                        <a href="#" class="signup-tab">Sign up</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="jumbotron">
+{{{body}}}
+</div>
+
+
+<script>
+$(document).ready(function(){
+	$(document).on('click','.signup-tab',function(e){
+		e.preventDefault();
+	    $('#registertaba').tab('show');
+	});
+
+	$(document).on('click','.signin-tab',function(e){
+	   	e.preventDefault();
+	    $('#logintaba').tab('show');
+	});
+
+	$(document).on('click','.forgetpass-tab',function(e){
+	 	e.preventDefault();
+	   	$('#forgetpasstaba').tab('show');
+	});
+});
+
+$("form").submit(function(e) {
+  console.log("bla")
+    e.preventDefault(); // Prevents the page from refreshing
+    var $this = $(this); // `this` refers to the current form element
+    $.post(
+        $this.attr("action"), // Gets the URL to sent the post to
+        $this.serialize(), // Serializes form data in standard format
+        "json" // The format the response should be in
+    )
+    .done(function(data){
+      document.location.href=data.redirect;
+    });
+    $('#signup')[0].reset();
+});
+
+
+</script>
+
+
+</body>
+
+
+
+</html>

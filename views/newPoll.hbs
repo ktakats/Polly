@@ -1,0 +1,42 @@
+<div class="jumbotron">
+<h2>Create new poll</h2>
+</div>
+<form action="/polls" method="post" id="newpoll">
+Question: </br>
+<input name="question" id="question" type="text" placeholder="Your question"/><br>
+Options: </br>
+<div id="optiondiv">
+<input name="option" id="option1" type="text" placeholder="Option 1"/></br>
+<input name="option" id="option2" type="text" placeholder="Option 2"/></br>
+</div>
+<button id="more" class="btn btn-default"><i class="fa fa-plus"></i></button>
+<input type="checkbox" name="public">Private poll*</input></br>
+
+<input type="submit" class="btn btn-default"/>
+</form>
+</br>
+<p>Private polls can only been seen by those with link. Public polls are available for anyone to vote.</p>
+
+<script>
+var i=3;
+var maxfields=10;
+
+$("form").bind('ajax:complete', function(data){
+  document.location.href=data.redirect;
+})
+
+$("#more").click(function(e){
+  e.preventDefault();
+  if(i<=maxfields){
+    var inp=document.createElement("input");
+    inp.name="option";
+    inp.id="option"+i;
+    inp.type="text";
+    inp.placeholder="Option "+i;
+    i+=1;
+    var myDiv=document.getElementById("optiondiv");
+    myDiv.appendChild(inp);
+    myDiv.appendChild(document.createElement("br"));
+  }
+})
+</script>
