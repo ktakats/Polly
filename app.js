@@ -9,11 +9,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose=require('mongoose')
 var passport=require('passport');
-var config=require('./config');
+//var config=require('./config');
 var authenticate=require('./authenticate');
 
-
-mongoose.connect(config.mongoUrl);
+require('dotenv').config({silent: true});
+//mongoose.connect(config.mongoUrl);
+console.log(authenticate.facebook.clientID)
+mongoose.connect(process.env.mongoUrl);
 var db=mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', function(){

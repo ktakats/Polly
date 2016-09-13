@@ -2,16 +2,16 @@ var passport=require('passport');
 var LocalStrategy=require('passport-local').Strategy;
 var FacebookStrategy=require('passport-facebook').Strategy;
 var User=require('./models/user');
-var config=require('./config');
-
+//var config=require('./config');
+require('dotenv').config({silent: true});
 exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 exports.facebook = passport.use(new FacebookStrategy({
-  clientID: config.facebook.clientID,
-  clientSecret: config.facebook.clientSecret,
-  callbackURL: config.facebook.callbackURL
+  clientID: process.env.facebookclientID,
+  clientSecret: process.env.facebookclientSecret,
+  callbackURL: process.env.facebookcallbackURL
 },
 function(accessToken, refreshToken, profile, done){
   User.findOne({OauthId: profile.id}, function(err, user){
