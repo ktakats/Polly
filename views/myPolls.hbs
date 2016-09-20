@@ -10,5 +10,9 @@
 
   {{/each}}
 {{/if}}
+{{#if name}}
 </div>
 <a href="newPoll"><div class="btn btn-default newpoll-btn"><i class="fa fa-plus"></i> New poll</div></a>
+{{else}}
+<div><p>Log in or register to create a new poll</p></div>
+{{/if}}

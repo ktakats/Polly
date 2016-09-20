@@ -1,42 +1,88 @@
-<div class="jumbotron">
-<h2>Create new poll</h2>
-</div>
-<form action="/polls" method="post" id="newpoll">
-Question: </br>
-<input name="question" id="question" type="text" placeholder="Your question"/><br>
-Options: </br>
-<div id="optiondiv">
-<input name="option" id="option1" type="text" placeholder="Option 1"/></br>
-<input name="option" id="option2" type="text" placeholder="Option 2"/></br>
-</div>
-<button id="more" class="btn btn-default"><i class="fa fa-plus"></i></button>
-<input type="checkbox" name="public">Private poll*</input></br>
+<h2 class="title">Create a new poll</h2>
+
+
+<form action="/polls" method="post" id="newpoll" class="newpollform">
+<div class="row">
+  <div class=form-group>
+    <div class="input-group col-md-4 col-md-offset-4">
+      <label class="newpoll">Your question: </label></br>
+      <input name="question" id="question" type="text" placeholder="Your question" class="form-control"/><br>
+    </div>
+  </div>
+  <div class="form-group" id="optiondiv">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="input-group">
+        <label class="newpoll">Options: </label></br>
+      </div>
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+    <div class="input-group">
+        <input name="option" id="option1" type="text" placeholder="Option 1" class="form-control"/>
+      <span class="input-group-btn"><button id="less" class="btn btn-danger btn-remove"><i class="fa fa-minus"></i></button></span>
+    </div>
+  </div>
+  <div class="col-md-4 col-md-offset-4">
+      <div class="input-group">
+        <input name="option" id="option2" type="text" placeholder="Option 2" class="form-control"/>
+        <span class="input-group-btn">
+          <button id="more" class="btn btn-default btn-add"><i class="fa fa-plus"></i></button>
+        </span>
+      </div>
+    </div>
+    </div>
+  </br>
+<div class="col-md-4 col-md-offset-4">
+<div class="newpollsubmit">
+<input type="checkbox" name="public"> Private poll*</input></br>
 
 <input type="submit" class="btn btn-default"/>
+</div>
+</div>
+</div>
 </form>
+
 </br>
 <p>Private polls can only been seen by those with link. Public polls are available for anyone to vote.</p>
 
 <script>
 var i=3;
 var maxfields=10;
-
+var next=3;
+$(document).ready(function(){
 $("form").bind('ajax:complete', function(data){
   document.location.href=data.redirect;
-})
+});
 
-$("#more").click(function(e){
+
+
+$(document).on("click", ".btn-remove", function(e){
   e.preventDefault();
-  if(i<=maxfields){
-    var inp=document.createElement("input");
-    inp.name="option";
-    inp.id="option"+i;
-    inp.type="text";
-    inp.placeholder="Option "+i;
-    i+=1;
-    var myDiv=document.getElementById("optiondiv");
-    myDiv.appendChild(inp);
-    myDiv.appendChild(document.createElement("br"));
-  }
-})
+  console.log($(this));
+  var fieldNum=this.id.charAt(this.id.length-1);
+  var fieldId="#option"+fieldNum;
+  console.log($(this).closest('.col-md-4'))
+  $(this).closest('.col-md-4').remove();
+  $(fieldId).remove();
+});
+
+
+$(document).on("click", ".btn-add", function(e){
+  e.preventDefault();
+  var current=$('#optiondiv');
+  /*Create new line*/
+  var tocopy=$(this).parents(".col-md-4");
+  var newEntry=$(tocopy).clone().appendTo(current);
+  console.log(newEntry)
+  newEntry.find('input').attr("id","Option"+next).attr("placeholder","Option "+next);
+  /*Change previous line*/
+  console.log($(this))
+  $(this).removeClass("btn-default").addClass("btn-danger").removeClass('btn-add').addClass("btn-remove");
+  $(this).children('i').removeClass("fa-plus").addClass("fa-minus");
+  next+=1;
+
+});
+});
+//$('#less').click(function(e){
+//  e.preventDefault();
+//})
 </script>

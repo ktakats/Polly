@@ -29,10 +29,11 @@ router.route('/profile')
   res.render('profile', {name: req.decoded._doc.username});
 });
 
-
-router.get("/newPoll", function(req,res){
-  res.render('newPoll')
+router.route('/newPoll')
+.get(Verify.verifyOrdinaryUser, function(req,res){
+  res.render('newPoll', {name: req.decoded._doc.username})
 })
+
 
 //router.get('/myPolls', myPolls);
 
