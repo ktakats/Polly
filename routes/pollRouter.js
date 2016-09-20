@@ -3,6 +3,7 @@ var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
 var Verify=require('./verify');
 var Polls=require('../models/polls');
+var ipInfo=require("ipinfo");
 
 var pollRouter=express.Router();
 pollRouter.use(bodyParser.json());
@@ -64,38 +65,37 @@ pollRouter.route('/:id')
 })
 
 .post(function(req,res){
-  var ip=req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  console.log(req.connection.localAddress);
-  Polls.findById(req.params.id, function(err,poll){
-    if(err) throw err;
-    var arr=poll.answers;
-    var j=arr.filter(function(item, i){
 
-      return item.option==req.body.vote;
+  ipInfo(function(err, cLoc){
+    var ip=cLoc.ip;
+
+
+    Polls.findById(req.params.id, function(err,poll){
+      if(err) throw err;
+      var arr=poll.answers;
+      var j=arr.filter(function(item, i){
+
+        return item.option==req.body.vote;
+
+      });
+      var voters=poll.voters.map(function(item){
+        return item.ip;
+      });
+  //  console.log(poll.answers[0])
+      poll.answers.id(j[0]._id).votes+=1;
+      if(voters.indexOf(ip)<0){
+        poll.voters.push({ip: ip});
+        poll.voters.push({ip: "190.46.168.185"})
+      }
+      poll.save(function(err,poll){
+        if(err) throw err;
+        var add='/polls/'+String(j[0]._id);
+
+        res.redirect(req.get('referer'));
+      });
 
     });
-    var voters=poll.voters.map(function(item){
-      return item.ip;
-    })
-  //  console.log(poll.answers[0])
-    poll.answers.id(j[0]._id).votes+=1;
-    console.log(voters.indexOf(ip))
-    if(voters.indexOf(ip)<0){
-      console.log("myip: " + ip)
-      poll.voters.push({ip: ip});
-      poll.voters.push({ip: "190.46.168.185"})
-    }
-    poll.save(function(err,poll){
-      if(err) throw err;
-      var add='/polls/'+String(j[0]._id);
-      console.log(add)
-      res.redirect(req.get('referer'));
-    })
-
-
-
-
-  })
+  });
 });
 
 pollRouter.route('/polls/:id')
