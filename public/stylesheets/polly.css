@@ -80,18 +80,15 @@ form.newpollform label {
 
 input[type=text] {
   width: 12em;
-  display: inline-block;
-  margin: 0.5em; }
+  display: inline-block; }
 
 .more {
   display: inline-block;
   width: 10em; }
 
-#more {
-  margin-top: 0.5em; }
-
-#less {
-  margin-top: em; }
+.newoption{
+  margin-bottom: 0.5em 
+}
 
 .newpollsubmit {
   margin-top: 1em; }
