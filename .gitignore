@@ -1,7 +1,0 @@
-config.js
-npm-debug.log
-.env
-.sass-cache
-node_modules
-public/stylesheets/.sass-cache
-public/stylesheets/polly.css.map
