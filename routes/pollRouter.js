@@ -43,8 +43,15 @@ pollRouter.route('/')
     return {"option": item, "votes": 0}
   });
   req.body.answers=ans;
-  req.body.public!=req.body.public;
+  if (req.body.public==undefined){
+    req.body.public=true;
+  }
+  else{
+    req.body.public=!req.body.public;
+  }
+  //req.body.public!=req.body.public;
   req.body.createdBy=req.decoded._doc._id;
+  console.log(req.body.public)
   Polls.create(req.body, function(err, poll){
     if(err) throw err;
     console.log('Poll created');
