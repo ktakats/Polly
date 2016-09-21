@@ -2,3 +2,5 @@ config.js
 npm-debug.log
 .env
 .sass-cache
+node-modules
+public/stylesheets/.sass-cache
