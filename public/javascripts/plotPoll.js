@@ -86,7 +86,7 @@ function getData(address){
     $.getJSON('http://ipinfo.io', function(ipdata){
       console.log(ipdata.ip)
       console.log($.inArray(ipdata.ip,voters))
-      if($.inArray(ipdata.ip, voters)>0){
+      if($.inArray(ipdata.ip, voters)>=0){
         console.log("bla");
         voted=true;
       }

@@ -68,7 +68,7 @@ pollRouter.route('/:id')
 
   ipInfo(function(err, cLoc){
     var ip=cLoc.ip;
-
+    console.log(ip)
 
     Polls.findById(req.params.id, function(err,poll){
       if(err) throw err;
@@ -84,8 +84,8 @@ pollRouter.route('/:id')
   //  console.log(poll.answers[0])
       poll.answers.id(j[0]._id).votes+=1;
       if(voters.indexOf(ip)<0){
+        console.log("Ip: "+ip)
         poll.voters.push({ip: ip});
-        poll.voters.push({ip: "190.46.168.185"})
       }
       poll.save(function(err,poll){
         if(err) throw err;
