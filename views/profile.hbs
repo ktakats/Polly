@@ -1,3 +1,64 @@
 
   <h4 class="title">My account</h4>
   <h5>My polls</h5>
+  <div id="polls"></div>
+
+<script>
+var address='/polls'
+$(document).ready(function(){
+  $.get(address, function(data){
+    var mainDiv=document.getElementById("polls");
+    data.forEach(function(poll){
+      if(poll.owner){
+        //row
+        var rowdiv=document.createElement("div");
+        rowdiv.setAttribute("class", "row");
+        rowdiv.id="row"+poll.id;
+        //column
+        var leftcol=document.createElement("div");
+        leftcol.setAttribute("class","col-md-4 col-md-offset-4");
+        var rightcol=document.createElement("div");
+        rightcol.setAttribute("class","col-md-4 text-left");
+        //question div
+        var q=document.createElement("a");
+        q.href="polls/"+poll.id;
+        var qdiv=document.createElement("div");
+        qdiv.setAttribute("class", "btn btn-default poll-div");
+        qdiv.innerHTML=poll.question;
+        //delete button
+        var delbtn=document.createElement("button");
+        delbtn.setAttribute("class", "btn btn-danger delbtn");
+        delbtn.id=poll.id
+        delbtn.innerHTML="Delete";
+        //append
+        q.appendChild(qdiv);
+        rightcol.appendChild(delbtn);
+        //q.appendChild(document.createElement("br"));
+        leftcol.appendChild(q);
+        rowdiv.appendChild(leftcol);
+        rowdiv.appendChild(rightcol);
+        mainDiv.appendChild(rowdiv);
+      }
+    });
+  });
+
+    $(document).on("click", ".delbtn", function(e){
+      e.preventDefault();
+      var todel="#row"+$(this)[0].id;
+      $.ajax({
+        url: 'polls/'+$(this)[0].id,
+        type: 'DELETE',
+        success: function(resp){
+          $(todel).remove();
+        }
+      });
+    });
+
+
+
+});
+
+
+
+
+</script>

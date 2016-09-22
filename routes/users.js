@@ -61,7 +61,7 @@ router.post('/login', function(req,res,next){
     //    success: true,
     //    token: token
     //  });
-      res.send({redirect: '/polls'});
+      res.send({redirect: '/myPolls'});
     });
   })(req,res,next);
 });

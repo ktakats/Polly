@@ -50,7 +50,7 @@ h4.title {
   padding-bottom: 5px !important; }
 
 .poll-div {
-  width: 30%;
+  width: 100%;
   margin: 3px;
   text-align: left !important;
   background-color: white !important;
@@ -87,7 +87,7 @@ input[type=text] {
   width: 10em; }
 
 .newoption{
-  margin-bottom: 0.5em 
+  margin-bottom: 0.5em
 }
 
 .newpollsubmit {

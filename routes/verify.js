@@ -29,7 +29,7 @@ exports.checkStatus = function(req,res,next){
 exports.verifyOrdinaryUser = function(req,res,next){
 
   var token=req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.auth;
-
+  
   if(token){
   //  jwt.verify(token, config.secretKey, function(err, decoded){
     jwt.verify(token, process.env.secretKey, function(err, decoded){

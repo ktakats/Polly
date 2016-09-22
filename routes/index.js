@@ -25,13 +25,23 @@ router.get('/signup', function(req,res){
 
 router.route('/profile')
 .get(Verify.verifyOrdinaryUser,function(req,res){
-  console.log(req.decoded)
   res.render('profile', {name: req.decoded._doc.username});
 });
 
 router.route('/newPoll')
 .get(Verify.verifyOrdinaryUser, function(req,res){
   res.render('newPoll', {name: req.decoded._doc.username})
+});
+
+router.route('/myPolls')
+.get(Verify.verifyOrdinaryUser, function(req,res){
+  if(req.decoded){
+    var user=req.decoded._doc.username;
+  }
+  else{
+    var user=null;
+  }
+  res.render('myPolls', {name: user})
 })
 
 

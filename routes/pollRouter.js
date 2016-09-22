@@ -18,20 +18,25 @@ pollRouter.route('/')
     var search={public: true};
   }
 
-  Polls.find(search, function(err, poll){
+  Polls.find(search)
+    .populate("createdBy")
+    .exec(function(err, item){
     if (err) throw err;
-    var poll=poll.map(function(poll){return {'question':poll.question, id: poll._id}})
+    var poll=item.map(function(poll){
+      if(req.decoded){
+        var user=req.decoded._doc.username;
+      }
+      else{
+        var user="None"
+      }
+      
+      return {question: poll.question, id: poll._id, owner: poll.createdBy.username==user}})
 
-    console.log(req.decoded);
-  //  res.json(poll);
-    if(req.decoded){
-      var user=req.decoded._doc.username
-    }
-    else{
-      var user=null;
-    }
 
-    res.render('myPolls', {polls: poll, name: user});
+
+      res.json(poll)
+    //  res.render('myPolls', {polls: poll, name: user});
+
 
   });
 })
@@ -56,7 +61,7 @@ pollRouter.route('/')
     if(err) throw err;
     console.log('Poll created');
     var id=poll._id;
-    res.send({redirect: '/polls'});
+    res.send({redirect: '/myPolls'});
   })
 })
 
@@ -99,11 +104,19 @@ pollRouter.route('/:id')
         var add='/polls/'+String(j[0]._id);
 
         res.redirect(req.get('referer'));
+
       });
 
     });
   });
-});
+})
+
+.delete(Verify.verifyOrdinaryUser,function(req,res){
+  Polls.remove({_id: req.params.id}, function(err, resp){
+    if(err) throw err;
+    res.json(resp);
+  })
+})
 
 pollRouter.route('/polls/:id')
 .get(function(req,res){
