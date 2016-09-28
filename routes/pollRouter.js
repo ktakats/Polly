@@ -29,7 +29,7 @@ pollRouter.route('/')
       else{
         var user="None"
       }
-      
+
       return {question: poll.question, id: poll._id, owner: poll.createdBy.username==user}})
 
 
@@ -85,23 +85,30 @@ pollRouter.route('/:id')
     Polls.findById(req.params.id, function(err,poll){
       if(err) throw err;
       var arr=poll.answers;
-      var j=arr.filter(function(item, i){
+      var j=[];
+      j=arr.filter(function(item, i){
 
         return item.option==req.body.vote;
 
       });
+
       var voters=poll.voters.map(function(item){
         return item.ip;
       });
   //  console.log(poll.answers[0])
-      poll.answers.id(j[0]._id).votes+=1;
+      if(j.length==0){
+          poll.answers.push({option: req.body.vote, votes: 1});
+      }
+      else{
+        poll.answers.id(j[0]._id).votes+=1;
+      }
       if(voters.indexOf(ip)<0){
         console.log("Ip: "+ip)
         poll.voters.push({ip: ip});
       }
       poll.save(function(err,poll){
         if(err) throw err;
-        var add='/polls/'+String(j[0]._id);
+      
 
         res.redirect(req.get('referer'));
 

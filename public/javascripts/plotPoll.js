@@ -10,6 +10,7 @@ $(document).ready(function(){
   // Get data
   getData(address);
   // First allow to vote
+
 });
 
 
@@ -51,10 +52,10 @@ function createForm(data, options, votes){
   form.setAttribute("action","/polls"+id)
   form.id="vote"
   place.appendChild(form)
-
+  var j=0;
   options.forEach(function(item,i){
   //  console.log(item)
-
+    j=i;
     var inputsect=document.createElement("input");
     inputsect.type="radio";
     inputsect.name="vote";
@@ -77,12 +78,50 @@ function createForm(data, options, votes){
 
   })
 
+  var inputsect=document.createElement("input");
+  inputsect.type="radio";
+  inputsect.name="vote";
+  inputsect.id="otherbtn";
+  inputsect.setAttribute("class", "vote other");
+  inputsect.value="";
+
+
+  var label=document.createElement("label")
+  label.setAttribute("for", inputsect.id)
+  label.setAttribute("class", "vote");
+  label.innerHTML="Other: ";
+  var box=document.createElement("input");
+  box.type="text";
+  box.id="otherbox";
+  box.value="";
+  box.onfocus="";
+  box.onchange=addValue;
+  label.appendChild(box)
+
+  var span=document.createElement("span");
+  span.appendChild(document.createElement("span"))
+  label.appendChild(span)
+
+  form.appendChild(inputsect)
+  form.appendChild(label)
+  form.appendChild(document.createElement("br"))
+
   var sub=document.createElement("input")
   sub.setAttribute("type", "submit")
   sub.setAttribute("class", "btn btn-default")
   sub.setAttribute("value", "Vote")
   form.appendChild(sub)
+  var otherbox=$("#otherbox").val()
+
+
 };
+
+function addValue(){
+  var inp=document.getElementById("otherbtn");
+  console.log($(this).val())
+  inp.value=$(this).val();
+  console.log(inp.value)
+}
 
 //Gets the details of the poll from the database and calls plot
 function getData(address){
@@ -136,6 +175,7 @@ function getData(address){
 
   });
 }
+
 
 //submits form
 $("form").submit(function(e) {
