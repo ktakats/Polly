@@ -44,24 +44,33 @@ h2.title {
 h4.title {
   font-size: 6em;
   font-family: Tangerine;
-  margin-bottom: 0.5%; }
+  margin-bottom: 5%; }
+
+h5 {
+  font-size: 2em !important;
+  font-family: Tangerine;
+}
 
 .createdby {
   padding-bottom: 5px !important; }
 
 .poll-div {
-  width: 100%;
+  width: 50%;
   margin: 3px;
   text-align: left !important;
   background-color: white !important;
   color: #29AB87 !important;
   border-color: #29AB87 !important; }
 
+.polldiv{
+  vertical-align: middle;
+  margin-left: -2em;
+  width: 100%
+}
+
 .votingdiv {
   vertical-align: middle; }
 
-.poll-div {
-  vertical-align: middle; }
 
 .newpoll-btn {
   margin-top: 1%; }
@@ -92,6 +101,11 @@ input[type=text] {
 
 .newpollsubmit {
   margin-top: 1em; }
+
+.text-left{
+  display: inline-block;
+  margin-top: 0.1em;
+}
 
 input[type=radio]:not(old) {
   width: 2em;

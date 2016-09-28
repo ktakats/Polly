@@ -16,14 +16,14 @@ $(document).ready(function(){
         rowdiv.id="row"+poll.id;
         //column
         var leftcol=document.createElement("div");
-        leftcol.setAttribute("class","col-md-4 col-md-offset-4");
+        leftcol.setAttribute("class","col-md-4 col-xs-2 col-md-offset-4 col-xs-offset-4");
         var rightcol=document.createElement("div");
-        rightcol.setAttribute("class","col-md-4 text-left");
+        rightcol.setAttribute("class","col-md-4 col-xs-6 text-left");
         //question div
         var q=document.createElement("a");
         q.href="polls/"+poll.id;
         var qdiv=document.createElement("div");
-        qdiv.setAttribute("class", "btn btn-default poll-div");
+        qdiv.setAttribute("class", "btn btn-default polldiv poll-div");
         qdiv.innerHTML=poll.question;
         //delete button
         var delbtn=document.createElement("button");
