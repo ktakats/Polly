@@ -106,7 +106,7 @@ function getData(address){
 
     console.log(voters);
 
-    $.getJSON('http://ipinfo.io', function(ipdata){
+    $.getJSON('https://ipinfo.io', function(ipdata){
       console.log(ipdata.ip)
       console.log($.inArray(ipdata.ip,voters))
       if($.inArray(ipdata.ip, voters)>=0){
