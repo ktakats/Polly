@@ -3,7 +3,6 @@ var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
 var Verify=require('./verify');
 var Polls=require('../models/polls');
-var ipInfo=require("ipinfo");
 var requestIp=require("request-ip");
 
 var pollRouter=express.Router();
@@ -79,9 +78,7 @@ pollRouter.route('/:id')
 
 .post(function(req,res){
 
-  //ipInfo(function(err, cLoc){
-  //  var ip=cLoc.ip;
-  //  var ip=req.connection.remoteAddress | req.headers['x-forwarded-for'];
+
     var ip=requestIp.getClientIp(req);
     console.log(ip)
 
@@ -129,7 +126,7 @@ pollRouter.route('/:id')
 })
 
 pollRouter.route('/polls/:id')
-.get(function(req,res){
+.get(Verify.verifyOrdinaryUser,function(req,res){
   //Polls.findById(req.params.id, function(err, poll){
   //  if(err) throw err;
   //  res.json(poll);
@@ -138,7 +135,16 @@ pollRouter.route('/polls/:id')
   .populate('createdBy')
   .exec(function(err,poll){
     if(err) throw err;
-    res.json(poll);
+    if(req.decoded){
+      var user=req.decoded._doc.username;
+    }
+    else{
+      var user="None"
+    }
+    console.log(poll)
+    var data=poll.toJSON();
+    data.owner=(poll.createdBy.username==user)
+    res.send(data);
   })
 });
 

@@ -45,7 +45,7 @@ function createShare(){
 
 
 // creates the for to vote from the details of the poll
-function createForm(data, options, votes){
+function createForm(data, options, votes, owns){
   var place=document.getElementById("poll");
   var form=document.createElement("form");
   form.setAttribute("method", "post")
@@ -77,26 +77,26 @@ function createForm(data, options, votes){
 
 
   })
+  if(owns){
+    var inputsect=document.createElement("input");
+    inputsect.type="radio";
+    inputsect.name="vote";
+    inputsect.id="otherbtn";
+    inputsect.setAttribute("class", "vote other");
+    inputsect.value="";
 
-  var inputsect=document.createElement("input");
-  inputsect.type="radio";
-  inputsect.name="vote";
-  inputsect.id="otherbtn";
-  inputsect.setAttribute("class", "vote other");
-  inputsect.value="";
 
-
-  var label=document.createElement("label")
-  label.setAttribute("for", inputsect.id)
-  label.setAttribute("class", "vote");
-  label.innerHTML="Other: ";
-  var box=document.createElement("input");
-  box.type="text";
-  box.id="otherbox";
-  box.value="";
-  box.autocomplete="off";
-  box.onchange=addValue;
-  label.appendChild(box)
+    var label=document.createElement("label")
+    label.setAttribute("for", inputsect.id)
+    label.setAttribute("class", "vote");
+    label.innerHTML="Other: ";
+    var box=document.createElement("input");
+    box.type="text";
+    box.id="otherbox";
+    box.value="";
+    box.autocomplete="off";
+    box.onchange=addValue;
+    label.appendChild(box)
 
   var span=document.createElement("span");
   span.appendChild(document.createElement("span"))
@@ -105,13 +105,18 @@ function createForm(data, options, votes){
   form.appendChild(inputsect)
   form.appendChild(label)
   form.appendChild(document.createElement("br"))
-
+}
   var sub=document.createElement("input")
   sub.setAttribute("type", "submit")
   sub.setAttribute("class", "btn btn-default")
   sub.setAttribute("value", "Vote")
   form.appendChild(sub)
-  var otherbox=$("#otherbox").val()
+
+  if(!owns){
+    var advice=document.createElement("p")
+    advice.innerHTML="Log in to add more options"
+    place.appendChild(advice)
+  }
 
 
 };
@@ -154,7 +159,7 @@ function getData(address){
       }
       if(!voted){
         console.log(voted)
-        createForm(data,options,votes)
+        createForm(data,options,votes,data.owner)
       }
       else{
         var all=votes.reduce(function(a, b) {return a + b;}, 0);
