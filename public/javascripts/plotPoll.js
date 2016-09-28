@@ -12,6 +12,8 @@ $(document).ready(function(){
   // First allow to vote
 });
 
+
+
 function createHeader(question, owner){
   var place=document.getElementById("header");
   var Q=document.createElement("h4");
@@ -23,6 +25,23 @@ function createHeader(question, owner){
   place.appendChild(Q);
   place.appendChild(owns);
 }
+
+// Creates share button
+
+function createShare(){
+  var place=document.getElementById("share");
+  var shareAddress=window.location.href;
+  var A=document.createElement("a");
+  A.href="http://www.facebook.com/sharer/sharer.php?u="+shareAddress;
+  A.target="_blank"
+  var btndiv=document.createElement("div");
+  btndiv.setAttribute("class", "btn btn-primary share-btn");
+  btndiv.innerHTML="Share on Facebook";
+  A.appendChild(btndiv);
+  place.appendChild(A);
+
+}
+
 
 // creates the for to vote from the details of the poll
 function createForm(data, options, votes){
@@ -40,14 +59,17 @@ function createForm(data, options, votes){
     inputsect.type="radio";
     inputsect.name="vote";
     inputsect.id=i;
+    inputsect.setAttribute("class", "vote")
     inputsect.value=item;
 
     var label=document.createElement("label")
     label.setAttribute("for", inputsect.id)
+    label.setAttribute("class", "vote");
     label.innerHTML=item;
     var span=document.createElement("span");
     span.appendChild(document.createElement("span"))
     label.appendChild(span)
+
     form.appendChild(inputsect)
     form.appendChild(label)
     form.appendChild(document.createElement("br"))
@@ -70,6 +92,7 @@ function getData(address){
       var question=data.question;
       var owner=data.createdBy.username;
       createHeader(question, owner);
+      createShare();
     var options=$.map(data.answers, function(value, index){
       return value.option;
     })
