@@ -157,6 +157,7 @@ function plot(data, votes, all){
     .attr("width", 1000)
     .attr("height", 1000);
 
+var tip=d3.select("#plot").append("div");
 //var color=d3.scale.ordinal()
 //    .domain([0, votes.length])
 //    .range(["red", "blue"]);
@@ -205,6 +206,26 @@ arcs.append("text")
     .attr("font-size", "1.5em")
     .transition()
     .delay(500)
-    .text(function(d){if(d.data.votes>0){return d.data.option;}})
+    .text(function(d){if(d.data.votes>0){return d.data.option;}});
+
+  arcs.on("mouseover", function(d){
+    var p=d3.select(this);
+    p.attr("class", "mouseover")
+    tip.html("<span>"+ d.data.option + "</span> </br> <span>Votes: "+ d.data.votes + "</span>")
+    tip.transition()
+    .attr("class", "tooltip")
+    .delay(100)
+    .style("opacity", 0.8)
+    .style("left", d3.event.pageX + 5 +"px")
+    .style("top", d3.event.pageY -25+"px")
+  });
+
+  arcs.on("mouseout", function(d){
+    var p=d3.select(this)
+    p.attr("class", "mouseout")
+    tip.transition()
+    .delay(100)
+    .style("opacity", 0)
+  })
 
 }
