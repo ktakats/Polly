@@ -4,6 +4,7 @@ var mongoose=require('mongoose');
 var Verify=require('./verify');
 var Polls=require('../models/polls');
 var ipInfo=require("ipinfo");
+var requestIp=require("request-ip");
 
 var pollRouter=express.Router();
 pollRouter.use(bodyParser.json());
@@ -80,7 +81,8 @@ pollRouter.route('/:id')
 
   //ipInfo(function(err, cLoc){
   //  var ip=cLoc.ip;
-    var ip=req.connection.remoteAddress | req.headers['x-forwarded-for'];
+  //  var ip=req.connection.remoteAddress | req.headers['x-forwarded-for'];
+    var ip=requestIp.getClientIp(req);
     console.log(ip)
 
     Polls.findById(req.params.id, function(err,poll){
