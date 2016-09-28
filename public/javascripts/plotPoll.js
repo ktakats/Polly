@@ -94,7 +94,7 @@ function createForm(data, options, votes){
   box.type="text";
   box.id="otherbox";
   box.value="";
-  box.onfocus="";
+  box.autocomplete="off";
   box.onchange=addValue;
   label.appendChild(box)
 
