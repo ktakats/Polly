@@ -78,8 +78,9 @@ pollRouter.route('/:id')
 
 .post(function(req,res){
 
-  ipInfo(function(err, cLoc){
-    var ip=cLoc.ip;
+  //ipInfo(function(err, cLoc){
+  //  var ip=cLoc.ip;
+    var ip=req.connection.remoteAddress | req.headers['x-forwarded-for'];
     console.log(ip)
 
     Polls.findById(req.params.id, function(err,poll){
@@ -108,13 +109,13 @@ pollRouter.route('/:id')
       }
       poll.save(function(err,poll){
         if(err) throw err;
-      
+
 
         res.redirect(req.get('referer'));
 
       });
 
-    });
+  //  });
   });
 })
 
