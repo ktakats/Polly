@@ -16,6 +16,7 @@
   <link rel='stylesheet'  href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/javascripts/layout.js" charset="utf-8"></script>
   <script src="//d3js.org/d3.v4.min.js"></script>
 </head>
 <html>
@@ -89,7 +90,7 @@
                       <input type="password" class="form-control" name="password" placeholder="password"/>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-default" data-loading-text="Signing in...">Login</button>
+                  <button type="submit" class="btn btn-default" data-loading-text="Signing in..." >Login</button>
                   <p>or</p>
 
 
@@ -191,41 +192,6 @@
 </div>
 
 
-<script>
-$(document).ready(function(){
-	$(document).on('click','.signup-tab',function(e){
-		e.preventDefault();
-	    $('#registertaba').tab('show');
-	});
-
-	$(document).on('click','.signin-tab',function(e){
-	   	e.preventDefault();
-	    $('#logintaba').tab('show');
-	});
-
-	$(document).on('click','.forgetpass-tab',function(e){
-	 	e.preventDefault();
-	   	$('#forgetpasstaba').tab('show');
-	});
-});
-
-$("form").submit(function(e) {
-  console.log("bla")
-    e.preventDefault(); // Prevents the page from refreshing
-    var $this = $(this); // `this` refers to the current form element
-    $.post(
-        $this.attr("action"), // Gets the URL to sent the post to
-        $this.serialize(), // Serializes form data in standard format
-        "json" // The format the response should be in
-    )
-    .done(function(data){
-      document.location.href=data.redirect;
-    });
-    $('#signup')[0].reset();
-});
-
-
-</script>
 
 
 </body>
