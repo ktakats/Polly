@@ -30,9 +30,15 @@ $(document).ready(function(){
         delbtn.setAttribute("class", "btn btn-danger delbtn");
         delbtn.id=poll.id
         delbtn.innerHTML="Delete";
+        //add results button
+        var resultsbtn=document.createElement("button");
+        resultsbtn.setAttribute("class", "btn btn-default resultbtn");
+        resultsbtn.id=poll.id;
+        resultsbtn.innerHTML="Results"
         //append
         q.appendChild(qdiv);
         rightcol.appendChild(delbtn);
+        rightcol.appendChild(resultsbtn);
         //q.appendChild(document.createElement("br"));
         leftcol.appendChild(q);
         rowdiv.appendChild(leftcol);
@@ -55,6 +61,11 @@ $(document).ready(function(){
           }
         });
       }
+    });
+
+    $(document).on("click", ".resultbtn", function(e){
+      e.preventDefault();
+      window.location.href='polls/polls/'+$(this)[0].id;
     });
 
 
