@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+
 	$(document).on('click','.signup-tab',function(e){
 		e.preventDefault();
 	    $('#registertaba').tab('show');
@@ -26,7 +26,15 @@ $("form").submit(function(e) {
         "json"
     )
     .done(function(data){
-      document.location.href=data.redirect;
+			console.log(data)
+			if(data.redirect==undefined){
+				var newdiv=$(".alert")
+				newdiv.css("display", "block")
+				newdiv.html(data.message);
+			}
+			else{
+      	document.location.href=data.redirect;
+			}
     });
     $('#signup')[0].reset();
 });

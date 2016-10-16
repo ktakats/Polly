@@ -12,7 +12,12 @@ pollRouter.route('/')
 .get(Verify.verifyOrdinaryUser, function(req, res){
 
   if(req.decoded){
-    var search={$or: [{public: true}, {createdBy: req.decoded._doc._id}]};
+    if(req.decoded._doc.username=="admin"){
+      var search={}
+    }
+    else{
+      var search={$or: [{public: true}, {createdBy: req.decoded._doc._id}]};
+    }
   }
   else{
     var search={public: true};
@@ -22,6 +27,7 @@ pollRouter.route('/')
     .populate("createdBy")
     .exec(function(err, item){
     if (err) throw err;
+
     var poll=item.map(function(poll){
       if(req.decoded){
         var user=req.decoded._doc.username;
@@ -30,10 +36,10 @@ pollRouter.route('/')
         var user="None"
       }
 
-      return {question: poll.question, id: poll._id, owner: poll.createdBy.username==user}})
+      return {question: poll.question, id: poll._id, owner: (poll.createdBy.username==user || user=="admin")}})
 
 
-
+console.log(poll)
       res.json(poll)
     //  res.render('myPolls', {polls: poll, name: user});
 

@@ -23,6 +23,11 @@ body {
   .navbar a:hover {
     color: black !important; }
 
+.alert{
+  display: none;
+  margin-top: 5px;
+}
+
 h1.title {
   font-size: 10em !important;
   vertical-align: middle;

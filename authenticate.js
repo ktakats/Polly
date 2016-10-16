@@ -8,6 +8,8 @@ exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+
 exports.facebook = passport.use(new FacebookStrategy({
   clientID: process.env.facebookclientID,
   clientSecret: process.env.facebookclientSecret,
