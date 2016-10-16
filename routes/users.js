@@ -95,7 +95,7 @@ router.get('/facebook/callback', function(req,res,next){
       }
       var token=Verify.getToken(user);
       res.cookie('auth', token);
-      res.redirect('/polls');
+      res.redirect('/myPolls');
     });
   })(req,res,next);
 });
