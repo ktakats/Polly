@@ -151,14 +151,14 @@ function getData(address){
     console.log(voters);
 
     $.getJSON('https://ipinfo.io', function(ipdata){
-      console.log(ipdata.ip)
-      console.log($.inArray(ipdata.ip,voters))
+    //  console.log(ipdata.ip)
+    //  console.log($.inArray(ipdata.ip,voters))
       if($.inArray(ipdata.ip, voters)>=0){
-        console.log("bla");
+    //    console.log("bla");
         voted=true;
       }
       if(!voted){
-        console.log(voted)
+    //    console.log(voted)
         createForm(data,options,votes,data.owner)
       }
       else{
@@ -274,7 +274,13 @@ arcs.append("text")
     .attr("font-size", "1.5em")
     .transition()
     .delay(500)
-    .text(function(d){if(d.data.votes>0){return d.data.option;}});
+    .text(function(d){if(d.data.votes>0){
+      console.log(d.data.option.slice(10))
+      if(d.endAngle-d.startAngle<1.57 && d.data.option.length>10){
+        return d.data.option.slice(0,10)+"..."
+      }
+      else{
+      return d.data.option;}}});
 
   arcs.on("mouseover", function(d){
     var p=d3.select(this);
