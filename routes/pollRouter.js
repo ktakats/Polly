@@ -149,7 +149,7 @@ pollRouter.route('/polls/:id')
     }
     console.log(poll)
     var data=poll.toJSON();
-    data.owner=(poll.createdBy.username==user)
+    data.owner=(user=="admin" || poll.createdBy.username==user)
     res.send(data);
   })
 });
