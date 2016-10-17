@@ -92,6 +92,18 @@ h5 {
 
 }
 
+form#vote {
+  min-width: 700px;
+  max-width: 800px;
+  width: 30%;
+}
+form#vote label{
+  margin-left: 1%;
+  position: absolute;
+}
+form#vote .btn{
+  margin-top: 3%;
+}
 
 form.newpollform label {
   display: inline-block;

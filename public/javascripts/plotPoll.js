@@ -61,6 +61,7 @@ function createForm(data, options, votes, owns){
     inputsect.name="vote";
     inputsect.id=i;
     inputsect.setAttribute("class", "vote")
+    inputsect.setAttribute("style", "vertical-align:left")
     inputsect.value=item;
 
     var label=document.createElement("label")
