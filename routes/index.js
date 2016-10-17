@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-//var myPolls=require('./myPolls');
 var Verify=require('./verify');
 
 /* GET home page. */
@@ -42,23 +41,7 @@ router.route('/myPolls')
     var user=null;
   }
   res.render('myPolls', {name: user})
-})
+});
 
-
-//router.get('/myPolls', myPolls);
-
-//router.get('/poll/(:id)', function(req,res){
-//  res.render('viewPoll')
-//})
-
-//router.get('/polls/poll/(:id)', findPoll);
-
-//router.post('/addNew', addNewPoll);
-
-//router.post('/votePoll', votePoll);
-
-//router.get('/proba', function(req,res){
-//  res.render('viewPoll')
-//})
 
 module.exports = router;

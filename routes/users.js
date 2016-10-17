@@ -67,10 +67,7 @@ router.post('/login', function(req,res,next){
 router.get('/logout', function(req,res){
   req.logout();
   res.clearCookie("auth");
-//  res.status(200).json({
-//    status: 'Bye'
-//  });
-  res.redirect('..')
+  res.redirect('..');
 });
 
 

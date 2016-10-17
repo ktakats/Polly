@@ -4,12 +4,10 @@ $(document).ready(function(){
 
   var address="/polls"+window.location.pathname;
   id=address.slice(12)
-//  console.log(address)
   var voted=false;
 
   // Get data
   getData(address);
-  // First allow to vote
 
 });
 
@@ -54,7 +52,6 @@ function createForm(data, options, votes, owns){
   place.appendChild(form)
   var j=0;
   options.forEach(function(item,i){
-  //  console.log(item)
     j=i;
     var inputsect=document.createElement("input");
     inputsect.type="radio";
@@ -78,6 +75,7 @@ function createForm(data, options, votes, owns){
 
 
   })
+  //Logged in user can add more options
   if(owns){
     var inputsect=document.createElement("input");
     inputsect.type="radio";
@@ -124,10 +122,8 @@ function createForm(data, options, votes, owns){
 
 function addValue(){
   var inp=document.getElementById("otherbtn");
-  console.log($(this).val())
   inp.value=$(this).val();
-  console.log(inp.value)
-}
+};
 
 //Gets the details of the poll from the database and calls plot
 function getData(address){
@@ -140,26 +136,21 @@ function getData(address){
       createShare();
     var options=$.map(data.answers, function(value, index){
       return value.option;
-    })
+    });
     var votes=$.map(data.answers, function(value, index){
       return value.votes;
-    })
+    });
 
     var voters=$.map(data.voters, function(value, index){
       return value.ip;
     });
 
-    console.log(voters);
 
     $.getJSON('https://ipinfo.io', function(ipdata){
-    //  console.log(ipdata.ip)
-    //  console.log($.inArray(ipdata.ip,voters))
       if($.inArray(ipdata.ip, voters)>=0){
-    //    console.log("bla");
         voted=true;
       }
       if(!voted){
-    //    console.log(voted)
         createForm(data,options,votes,data.owner)
       }
       else{
@@ -171,14 +162,7 @@ function getData(address){
           document.getElementById("plot").innerHTML="No votes yet"
         }
       }
-    })
-
-  //    console.log(options)
-  //    console.log(votes)
-
-
-
-
+    });
   });
 }
 
@@ -186,75 +170,55 @@ function getData(address){
 //submits form
 $("form").submit(function(e) {
     e.preventDefault(); // Prevents the page from refreshing
-    var $this = $(this); // `this` refers to the current form element
-//    $.getJSON('http://ipinfo.io', function(data){
-//      $this.append('<input type="text" name="ip" value='+data.ip+'/>');
-//      console.log($this)
-//    })
-//    .done(function(){
+    var $this = $(this);
       $.post(
           $this.attr("action"), // Gets the URL to sent the post to
-          $this.serialize(), // Serializes form data in standard format
-          "json" // The format the response should be in
-      )
+          $this.serialize(),
+          "json"
+      );
       .done(function(){
         $('#vote')[0].reset();
         voted=true;
         getData(address);
-  //    })
-    })
-  //  $.post(
-  //      $this.attr("action"), // Gets the URL to sent the post to
-  //      $this.serialize(), // Serializes form data in standard format
-  //      "json" // The format the response should be in
-  //  );
-  //  $('#vote')[0].reset();
-  //  voted=true;
-  //  getData(address);
+    });
 });
 
 
 
 //plotting
 function plot(data, votes, all){
-
-
-//  var data=votes;
   var dat=data.answers;
 
   var canvas=d3.select("#plot").append("svg")
     .attr("width", 1000)
     .attr("height", 1000);
 
-var tip=d3.select("#plot").append("div");
-//var color=d3.scale.ordinal()
-//    .domain([0, votes.length])
-//    .range(["red", "blue"]);
-var color = d3.scale.category20();
+  var tip=d3.select("#plot").append("div");
+  var color = d3.scale.category20();
 
-var group= canvas.append("g")
+  var group= canvas.append("g")
     .attr("transform", "translate(500,200)");
 
-var r=200;
-var p=Math.PI *2;
+  var r=200;
+  var p=Math.PI *2;
 
-var arc=d3.svg.arc()
+  var arc=d3.svg.arc()
     .innerRadius(0)
     .outerRadius(r)
 
-var pie=d3.layout.pie()
+  var pie=d3.layout.pie()
     .value(function(d){return d.votes/all})
     .startAngle(0)
     .endAngle(p)
     .sort(null);
 
-var arcs=group.selectAll(".arc")
+  var arcs=group.selectAll(".arc")
     .data(pie(dat))
     .enter()
     .append("g")
     .attr("class", "arc")
 
-arcs.append("path")
+  arcs.append("path")
     .attr("d", arc)
     .attr("fill", function(d,i){return color(i)})
     .transition()
@@ -267,9 +231,9 @@ arcs.append("path")
         d.endAngle=i(t);
         return arc(d);
       }
-    })
+    });
 
-arcs.append("text")
+  arcs.append("text")
     .attr("transform", function(d){return "translate("+arc.centroid(d) + ")";})
     .attr("text-anchor", "middle")
     .attr("font-size", "1.5em")
@@ -301,6 +265,6 @@ arcs.append("text")
     tip.transition()
     .delay(100)
     .style("opacity", 0)
-  })
+  });
 
-}
+};

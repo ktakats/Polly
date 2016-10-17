@@ -8,6 +8,8 @@ var requestIp=require("request-ip");
 var pollRouter=express.Router();
 pollRouter.use(bodyParser.json());
 
+//mounted at localhost:3000/polls
+
 pollRouter.route('/')
 .get(Verify.verifyOrdinaryUser, function(req, res){
 
@@ -38,12 +40,7 @@ pollRouter.route('/')
 
       return {question: poll.question, id: poll._id, owner: (poll.createdBy.username==user || user=="admin")}})
 
-
-console.log(poll)
       res.json(poll)
-    //  res.render('myPolls', {polls: poll, name: user});
-
-
   });
 })
 .post(Verify.verifyOrdinaryUser,function(req,res,next){
@@ -69,7 +66,8 @@ console.log(poll)
     var id=poll._id;
     res.send({redirect: '/myPolls'});
   })
-})
+});
+
 
 pollRouter.route('/:id')
 .get(Verify.verifyOrdinaryUser,function(req, res){
@@ -81,12 +79,9 @@ pollRouter.route('/:id')
   }
   res.render('viewPoll', {name: user});
 })
-
 .post(function(req,res){
 
-
     var ip=requestIp.getClientIp(req);
-    console.log(ip)
 
     Polls.findById(req.params.id, function(err,poll){
       if(err) throw err;
@@ -101,7 +96,7 @@ pollRouter.route('/:id')
       var voters=poll.voters.map(function(item){
         return item.ip;
       });
-  //  console.log(poll.answers[0])
+
       if(j.length==0){
           poll.answers.push({option: req.body.vote, votes: 1});
       }
@@ -119,24 +114,17 @@ pollRouter.route('/:id')
         res.redirect(req.get('referer'));
 
       });
-
-  //  });
   });
 })
-
 .delete(Verify.verifyOrdinaryUser,function(req,res){
   Polls.remove({_id: req.params.id}, function(err, resp){
     if(err) throw err;
     res.json(resp);
-  })
-})
+  });
+});
 
 pollRouter.route('/polls/:id')
 .get(Verify.verifyOrdinaryUser,function(req,res){
-  //Polls.findById(req.params.id, function(err, poll){
-  //  if(err) throw err;
-  //  res.json(poll);
-  //});
   Polls.findById(req.params.id)
   .populate('createdBy')
   .exec(function(err,poll){
