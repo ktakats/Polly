@@ -129,7 +129,6 @@ function addValue(){
 function getData(address){
 
   $.get(address, function(data){
-    //  console.log(data)
       var question=data.question;
       var owner=data.createdBy.username;
       createHeader(question, owner);
@@ -175,7 +174,7 @@ $("form").submit(function(e) {
           $this.attr("action"), // Gets the URL to sent the post to
           $this.serialize(),
           "json"
-      );
+      )
       .done(function(){
         $('#vote')[0].reset();
         voted=true;
@@ -225,7 +224,6 @@ function plot(data, votes, all){
       //.delay(function(d,i){return i*500;})
       .duration(500)
     .attrTween("d", function(d){
-      //console.log(d)
       var i=d3.interpolate(d.startAngle+0.1,d.endAngle);
       return function(t){
         d.endAngle=i(t);
@@ -240,7 +238,6 @@ function plot(data, votes, all){
     .transition()
     .delay(500)
     .text(function(d){if(d.data.votes>0){
-      console.log(d.data.option.slice(10))
       if(d.endAngle-d.startAngle<1.57 && d.data.option.length>10){
         return d.data.option.slice(0,10)+"..."
       }

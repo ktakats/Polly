@@ -44,7 +44,6 @@ pollRouter.route('/')
   });
 })
 .post(Verify.verifyOrdinaryUser,function(req,res,next){
-  console.log(req.body);
   var ops=req.body.option;
 
   var ans=ops.map(function(item){
@@ -59,10 +58,8 @@ pollRouter.route('/')
   }
   //req.body.public!=req.body.public;
   req.body.createdBy=req.decoded._doc._id;
-  console.log(req.body.public)
   Polls.create(req.body, function(err, poll){
     if(err) throw err;
-    console.log('Poll created');
     var id=poll._id;
     res.send({redirect: '/myPolls'});
   })
@@ -104,7 +101,6 @@ pollRouter.route('/:id')
         poll.answers.id(j[0]._id).votes+=1;
       }
       if(voters.indexOf(ip)<0){
-        console.log("Ip: "+ip)
         poll.voters.push({ip: ip});
       }
       poll.save(function(err,poll){
@@ -135,7 +131,7 @@ pollRouter.route('/polls/:id')
     else{
       var user="None"
     }
-    console.log(poll)
+    
     var data=poll.toJSON();
     data.owner=(user=="admin" || poll.createdBy.username==user)
     res.send(data);
