@@ -14,7 +14,7 @@ var authenticate=require('./authenticate');
 
 require('dotenv').config({silent: true});
 //mongoose.connect(config.mongoUrl);
-console.log(authenticate.facebook.clientID)
+//console.log(authenticate.facebook.clientID)
 mongoose.connect(process.env.mongoUrl);
 var db=mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));

@@ -21,7 +21,7 @@ var voterSchema=new Schema({
 var pollSchema=new Schema({
   question:{
     type: String,
-    requred: true
+    required: true
   },
   public: {
     type: Boolean,
